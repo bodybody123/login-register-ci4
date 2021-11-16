@@ -17,11 +17,22 @@
             <form action="<?= base_url() ?>/validate" method="post">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" name="username" id="username" aria-describedby="helpId" placeholder="username">
+                    <input type="text" 
+                      class="form-control <?= ($validation->getError('username')) ? 'is-invalid' : ''; ?>" 
+                      name="username" id="username" 
+                      aria-describedby="helpId" placeholder="username" value="<?= old('username') ?>">
+                    <div class="invalid-feedback">
+                      <?= $validation->getError('username') ?>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" name="password" id="password" placeholder="password">
+                    <input type="password" 
+                      class="form-control <?= ($validation->getError('password')) ? 'is-invalid' : ''; ?>" 
+                      name="password" id="password" placeholder="password">
+                    <div class="invalid-feedback">
+                      <?= $validation->getError('password') ?>
+                    </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Login</button>
             </form>

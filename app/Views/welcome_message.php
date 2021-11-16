@@ -19,7 +19,7 @@
             Congratulations! you have logged in as <?= $session->get('username'); ?>
             <a class="btn btn-primary" href="/logout" role="button">logout</a>
         <?php else : ?>
-          Nope
+          Please login
           <a class="btn btn-primary" href="/login" role="button">login</a>
         <?php endif; ?>
       </div>

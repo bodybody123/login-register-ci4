@@ -20,7 +20,10 @@ class UserController extends BaseController
 
     public function index()
     {
-        return view('login/index');
+        $data = [
+            'validation' => \Config\Services::validation()
+        ];
+        return view('login/index', $data);
     }
     
     public function login()
@@ -28,20 +31,31 @@ class UserController extends BaseController
         $this->username = $this->request->getPost('username');
         $this->password = $this->request->getPost('password');
 
-        $validate = $this->userModel
-            ->where(['username' => $this->username, 'password' => $this->password])
-            ->first();
-
-        if($validate > 0) {
-            $sessiondata = [
-                'isLogin' => true,
-                'username' => $validate['username'],
-            ];
-
-            $this->session->set($sessiondata);
-
-            return redirect()->to('http://localhost:8080/');
+        if(!$this->validate([
+            'username' => [
+                'rules' => 'required|is_not_unique[user_data.username]',
+                'errors' => [
+                    'required' => 'please provide a username',
+                    'is_not_unique' => 'username does not exist',
+                ]
+            ],
+            'password' => 'required'
+        ])) {
+            return redirect()->to('http://localhost:8080/login')->withInput();
         }
+
+        $validate = $this->userModel
+        ->where(['username' => $this->username, 'password' => $this->password])
+        ->first();
+
+        $sessiondata = [
+            'isLogin' => true,
+            'username' => $validate['username'],
+        ];
+
+        $this->session->set($sessiondata);
+
+        return redirect()->to('http://localhost:8080/');
     }
 
     public function logout() 
