@@ -14,7 +14,7 @@
 
     <div class="card w-50 mx-auto">
         <div class="card-body">
-            <form action="<?= base_url() ?>/validate" method="post">
+            <form action="/validate" method="post">
                 <div class="mb-3">
                     <label for="username" class="form-label">Username</label>
                     <input type="text" 

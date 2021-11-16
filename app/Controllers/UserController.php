@@ -25,7 +25,13 @@ class UserController extends BaseController
         ];
         return view('login/index', $data);
     }
-    
+
+    public function logout() 
+    {
+        $this->session->destroy();
+        return redirect()->to('http://localhost:8080/');    
+    }
+
     public function login()
     {
         $this->username = $this->request->getPost('username');
@@ -33,7 +39,7 @@ class UserController extends BaseController
 
         if(!$this->validate([
             'username' => [
-                'rules' => 'required|is_not_unique[user_data.username]',
+                'rules' => 'required|is_not_unique[user.username]',
                 'errors' => [
                     'required' => 'please provide a username',
                     'is_not_unique' => 'username does not exist',
@@ -56,11 +62,5 @@ class UserController extends BaseController
         $this->session->set($sessiondata);
 
         return redirect()->to('http://localhost:8080/');
-    }
-
-    public function logout() 
-    {
-        $this->session->destroy();
-        return redirect()->to('http://localhost:8080/');    
     }
 }
