@@ -16,17 +16,33 @@ class BarangController extends BaseController
 
     public function index()
     {
-        return view('barang/index');
-    }
-
-    public function getBarang()
-    {
         $data = [
-            'barang' => $this->barang->findAll()
+            'barang' => $this->getBarang()
         ];
 
         return view('barang/index', $data);
     }
+
+    public function getBarang()
+    {
+        return $this->barang->findAll();
+    }
+    
+    public function getBarangById($id)
+    {
+        return $this->barang->find($id);
+    }
+
+
+    public function detail($id)
+    {
+        $data = [
+            'detail' => $this->getBarangById($id)
+        ];
+
+        return view('barang/detail', $data);
+    }
+
     public function create()
     {
         return view('barang/create');
@@ -50,10 +66,34 @@ class BarangController extends BaseController
         }
     }
 
-    // public function update()
-    // {
-    //     $validate = $this->barang->save
-    // }
+    public function edit($id)
+    {
+        $data = [
+            'barang' => $this->getBarangById($id),
+        ];
+
+        return view('/barang/edit', $data);
+    }
+
+    public function update()
+    {
+        $validate = $this->barang->save([
+            'id_barang' => $this->request->getVar('id_barang'),
+            'nama_barang' => $this->request->getVar('nama_barang'),
+            'spesifikasi' => $this->request->getVar('spesifikasi'),
+            'lokasi' => $this->request->getVar('lokasi'),
+            'kondisi' => $this->request->getVar('kondisi'),
+            'jumlah_barang' => $this->request->getVar('jumlah_barang'),
+            'sumber_dana' => $this->request->getVar('sumber_dana')
+        ]);
+
+        if($validate)
+        {
+            session()->setFlashdata('msg', 'data berhasil diubah');
+            
+            return redirect()->to('http://localhost:8080/dashboard/'. $this->request->getVar('id_barang').'/detail');
+        }
+    }
 
     public function delete($id)
     {

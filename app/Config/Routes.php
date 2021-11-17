@@ -31,8 +31,10 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'BarangController::getBarang');
-$routes->get('/dashboard', 'BarangController::getBarang');
+$routes->get('/', 'BarangController::index');
+$routes->get('/dashboard', 'BarangController::index');
+$routes->get('/dashboard/(:num)/detail', 'BarangController::detail/$1');
+$routes->get('/dashboard/(:num)/edit', 'BarangController::edit/$1');
 
 $routes->get('/login', 'UserController::index');
 $routes->get('/register', 'UserController::register');
@@ -42,6 +44,7 @@ $routes->get('/logout', 'UserController::logout');
 $routes->get('/create', 'BarangController::create');
 $routes->post('/save', 'BarangController::save');
 $routes->delete('/delete/(:num)', 'BarangController::delete/$1');
+$routes->post('/update', 'BarangController::update');
 
 /*
  * --------------------------------------------------------------------
